@@ -1,4 +1,4 @@
-load_all("RCPTEC")
+#load_all("RCPTEC")
 #test("RCPTEC") function
 
 library(testthat)
