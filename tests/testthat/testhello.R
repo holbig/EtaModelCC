@@ -5,4 +5,4 @@ library(testthat)
 test_check("RCPTEC")
 
 hello()
-getTemperatura()
+getTemperatura(lon = -75.05, lat = -35.05)
