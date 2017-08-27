@@ -2,6 +2,7 @@
 #test("RCPTEC") function
 
 library(testthat)
+library(RCPTEC)
 test_check("RCPTEC")
 
 hello()
