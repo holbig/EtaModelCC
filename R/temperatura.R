@@ -20,7 +20,6 @@ getWeatherData <- function(lon, lat, weatherData) {
 #getWeatherData(-50.88,-28.51, 'UR2M')
 #getWeatherData(-50.88,-28.51, 'V10M')
 
-
 getTemperature <- function(lon, lat) {
   #arq = url("https://github.com/marinadezordi/RCPTEC/raw/master/R/data/TP2M.Rdata")
   #load(arq)
