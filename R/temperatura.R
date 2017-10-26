@@ -117,6 +117,31 @@ info.RCPTEC <- function(){
 info.RCPTEC()
 
 library(jsonlite)
+info.RCPTEC.climate <- function(){
+
+  url <- "https://projeta.cptec.inpe.br/api/v1/public/models"
+  modelo <- fromJSON(url)
+
+  cat("modelID - Modelo: para verificação do id (modelID) dos modelos disponíveis, e suas respectivas datas iniciais(iMonth, iYear) e finais(fMonth, fYear)", "", sep = '\n')
+  show(modelo)
+
+  cat (paste("", "modelFrequency - Avaiable frequencies:",
+             "HOURLY: de 3 em 3 horas ",
+             "DAILY: diariamente",
+             "MONTHLY: mensalmente",
+             "YEARLY: anualmete - não é necessário informar o mês", "", sep='\n'))
+
+
+  cat (paste("", "modelOption - Variables:",
+             "- V10M - wind up 10m (m/s)",
+             "- TP2M - temperature up 2m",
+             "- PREC - precipitation",
+             "- UR2M - humidity",
+             "- OCIS - solar radiation", "", sep='\n'))
+}
+
+info.RCPTEC.climate()
+
 api <- fromJSON("https://projeta.cptec.inpe.br/api/v1/public/ETA/1/YEARLY/4/1/2006/12/2010/TP2M/-12/-49/")
 api <- unname(api)
 a <- data.table(LONGITUDE=api[6])
