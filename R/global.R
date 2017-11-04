@@ -10,3 +10,9 @@ url <- "https://projeta.cptec.inpe.br/api/v1/public/variables"
 variables <- fromJSON(url)
 variables <- as.data.frame(variables$data[,c(1,3,2,4)])
 names(variables)[2] <- c("variable")
+
+# Data-frame com variáveis geradas pelo modelo Eta 15km
+var_eta15km <- data.frame(variable = c("V10M","TP2M","PREC","UR2M","OCIS"),
+                          description = c("wind up 10m (m/s)","temperature up 2m","precipitation",
+                                          "humidity up 2m","solar radiation"),
+                          stringsAsFactors = FALSE)

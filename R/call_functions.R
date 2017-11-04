@@ -2,18 +2,18 @@
 #
 # EM FASE DE TESTES
 
-loadRda("OCIS")
+# Tests for getWeatherData() function
+getWeatherData(lon = -50.88, lat = -28.51, iTime = '2017110400', fTime = '2017110423')
+getWeatherData(lon = -50.88, lat = -28.51, iTime = '2017110400')
+getWeatherData(-50.88,-28.51, iTime = '2017110400', fTime = '2017110423')
 
-getWeatherData(lon = -50.88, lat = -28.51, iTime = '2017080700', fTime = '2017080710')
-getWeatherData(lon = -50.88, lat = -28.51, iTime = '2017080700')
-teste_weather <- getWeatherData(lon = -50.88, lat = -28.51,
-                                iTime = '2017110400', fTime = '2017110423',
-                                weatherData = 'OCIS')
+getWeatherData(lon = -50.88, lat = -28.51, weatherData = 'OCIS', iTime = '2017110400', fTime = '2017110423')
+getWeatherData(lon = -50.88, lat = -28.51, 'OCIS', iTime = '2017110400')
 
-#getWeatherData(-50.88,-28.51, 'OCIS')
-#getWeatherData(-50.88,-28.51, 'PREC')
-#getWeatherData(-50.88,-28.51, 'UR2M')
-#getWeatherData(-50.88,-28.51, 'V10M')
+getWeatherData(-50.88,-28.51, 'OCIS')
+
+getWeatherData(-50.88,-28.51)
+
 
 # Test for info.RCPTEC.weather() function
 info.RCPTEC.weather()

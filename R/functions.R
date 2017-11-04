@@ -10,51 +10,54 @@ source(paste(getwd(),"/R/global.R", sep=""))
 
 ### Functions for weather models
 
-getWeatherData(lon = -50.88, lat = -28.51,
-               iTime = '2017110400', fTime = '2017110423',
-               weatherData = 'OCIS')
-
-getWeatherData <- function(lon, lat, iTime, fTime="", weatherData= "all") {
+getWeatherData <- function(lon, lat, weatherData= "all", iTime=NULL, fTime=NULL) {
 
   if(weatherData == "all"){
-    getWeatherHour(lon1 = lon ,lat1 = lat, iTime1 = iTime, fTime1 = fTime)
+    #getWeatherHour(lon1 = lon ,lat1 = lat, iTime1 = iTime, fTime1 = fTime)
+    TP2M = getWeatherData(lon, lat, weatherData = 'TP2M', iTime, fTime)
+    OCIS = getWeatherData(lon, lat, weatherData = 'OCIS', iTime, fTime)
+    PREC = getWeatherData(lon, lat, weatherData = 'PREC', iTime, fTime)
+    UR2M = getWeatherData(lon, lat, weatherData = 'UR2M', iTime, fTime)
+    V10M = getWeatherData(lon, lat, weatherData = 'V10M', iTime, fTime)
+
+    v_all <- as.data.frame(rbind(TP2M = TP2M$Dados, OCIS = OCIS$Dados,
+                                 PREC = PREC$Dados, UR2M = UR2M$Dados,
+                                 V10M = V10M$Dados))
+
+    model_output <- list(Model = "Eta 15km",
+                         Frequency = "Hourly",
+                         Longitude = TP2M$Longitude,
+                         Latitude = TP2M$Latitude,
+                         Variable_name = var_eta15km$variable,
+                         Variable_description = var_eta15km$description,
+                         Dados = v_all)
   }
   else{
     d <- loadRda(weatherData)
     verifyLonLat(d, lon, lat)
     lonlat = ajuste_ponto(d[1:2],lon,lat)
-
-    if(fTime=="")
-      temp = subset(d, LONGITUDE == lonlat[1] & LATITUDE == lonlat[2], select=iTime)
+    if(is.null(iTime) & is.null(fTime)){
+      temp = subset(d, LONGITUDE == lonlat[1] & LATITUDE == lonlat[2])
+      temp = temp[,-c(1:2)]
+    }
     else
-      temp = subset(d, LONGITUDE == lonlat[1] & LATITUDE == lonlat[2], select = match(iTime, names(d)):match(fTime, names(d)))
-
+      if(is.null(fTime))
+        temp = subset(d, LONGITUDE == lonlat[1] & LATITUDE == lonlat[2], select=iTime)
+    else
+      temp = subset(d, LONGITUDE == lonlat[1] & LATITUDE == lonlat[2],
+                    select = match(iTime, names(d)):match(fTime, names(d)))
     row.names(temp) <- weatherData
     model_output <- list(Model = "Eta 15km",
                          Frequency = "Hourly",
+                         Longitude = lonlat[1],
+                         Latitude = lonlat[2],
                          Variable_name = row.names(temp),
-                         Variable_description = "TESTE",
+                         Variable_description =
+                           var_eta15km$description[which(var_eta15km$variable == row.names(temp))],
                          Dados = temp)
-    model_output
   }
-}
 
-
-print.RCPTEC <- function(df){
-
-}
-
-getWeatherHour<- function(lon1, lat1, iTime1, fTime1){
-  temp = getWeatherData(lon = lon1, lat = lat1, iTime = iTime1, fTime = fTime1, weatherData = 'TP2M')
-  oc = getWeatherData(lon = lon1, lat = lat1, iTime = iTime1, fTime = fTime1, weatherData = 'OCIS')
-  precip = getWeatherData(lon = lon1, lat = lat1, iTime = iTime1, fTime = fTime1, weatherData = 'PREC')
-  humi = getWeatherData(lon = lon1, lat = lat1, iTime = iTime1, fTime = fTime1, weatherData = 'UR2M')
-  wind = getWeatherData(lon = lon1, lat = lat1, iTime = iTime1, fTime = fTime1, weatherData = 'V10M')
-
-  # df <- data.frame(Temperature = temp, Radiation = oc, Precipitation = precip, Humidity = humi, Wind = wind)
-
-  w = rbind(Temperature = temp, Radiation = oc, Precipitation = precip, Humidity = humi, Wind = wind)
-  return(w)
+  model_output
 }
 
 verifyLonLat <- function(dado, lon, lat){
@@ -83,23 +86,15 @@ loadRda <- function(fileName){
 }
 
 info.RCPTEC.weather <- function(){
-
   cat(paste("CPTEC/INPE",
-            "Eta Model 15km Brazil",
-
-            "AREA COVERED IN THE MODEL",
-            "LONGITUDE:   -75.05 to -33.95,",
-            "LATITUDE:   -35.05 to 5.90",
-
-            "Variables:",
-            "V10M - wind up 10m (m/s)",
-            "TP2M - temperature up 2m",
-            "PREC - precipitation",
-            "UR2M - humidity",
-            "OCIS - solar radiation",
-
-            "FORECAST PERIOD (11 days)",
-            "YYYYMMDDHH to YYYYMMDDHH (Initial YearMonthDayHour to Final YearMonthDayHour)",  sep='\n'))
+            "Eta Model 15km Brazil\n",
+            "AREA COVERED IN THE MODEL:",
+            "LONGITUDE:   -75.05 to -33.95",
+            "LATITUDE :   -35.05 to   5.90",
+            "\nAvailable variables:\n",sep ="\n"))
+      print(var_eta15km, row.names=FALSE, right=FALSE)
+      cat(paste("\nFORECAST PERIOD (11 days)",
+                "YYYYMMDDHH to YYYYMMDDHH (Initial YearMonthDayHour to Final YearMonthDayHour)",  sep='\n'))
 }
 
 
