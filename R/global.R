@@ -15,4 +15,5 @@ names(variables)[2] <- c("variable")
 var_eta15km <- data.frame(variable = c("V10M","TP2M","PREC","UR2M","OCIS"),
                           description = c("wind up 10m (m/s)","temperature up 2m","precipitation",
                                           "humidity up 2m","solar radiation"),
+                          unit.measure = c("m/s","degrees Celsius","mm","%","W/m^2"),
                           stringsAsFactors = FALSE)
