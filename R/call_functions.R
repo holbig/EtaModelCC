@@ -27,3 +27,8 @@ getClimateData('1', 'HOURLY','TP2M', '-12', '-49', 1, 2006, 01, 2006)
 
 # Test for info.RCPTEC.climate() function
 info.RCPTEC.climate()
+
+# Tests for plots functions
+plot.RCPTEC.var(-50.88,-28.51, 'TP2M', "2017110400", "2017110623")
+plot.RCPTEC.meteogram(-50.88,-28.51)
+plot.RCPTEC.THP(-50.88,-28.51)
