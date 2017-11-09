@@ -1,50 +1,12 @@
 # Verifica a instalação dos pacotes necessários para o programa
-list.of.packages <- c("jsonlite","ggplot2","magrittr")
+list.of.packages <- c("jsonlite","ggplot2")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
 suppressMessages(library(jsonlite))
 suppressMessages(library(ggplot2))
-suppressMessages(library(magrittr))
 
 source(paste(getwd(),"/R/global.R", sep=""))
-
-#### Funtions for plot data of weather forecast ###
-
-add_legend <- function(...) {
-  opar <- par(fig=c(0, 1, 0, 1), oma=c(0, 0, 0, 0),
-              mar=c(0, 0, 0, 0), new=TRUE)
-  on.exit(par(opar))
-  plot(0, 0, type='n', bty='n', xaxt='n', yaxt='n')
-  legend(...)
-}
-
-plot.RCPTEC.var <- function(lon, lat, var, iTime = NULL, fTime = NULL){
-  info <- getWeatherData(lon, lat, var, iTime, fTime)
-  y = as.numeric(info$Dados)
-  x = strptime(colnames(info$Dados),'%Y%m%d%H')
-
-  if(var!="PREC"){
-    plot(x,y, type="l", main = paste("Forecast for longitude: ",lon," / latitude: ",lat, sep=""),
-         sub = "Forecast by Model Eta 15km (CPTEC/INPE, Brazil)", xlab = "Date", col = "blue", lwd =2,
-         ylab = var_eta15km$unit.measure[which(var_eta15km$variable == var)],
-         ylim = c(range(y)[1]-2, range(y)[2]+2), cex.lab = 1.5, cex.main=1.5)
-    mtext(var_eta15km$description[which(var_eta15km$variable == var)], cex=1.5, col="blue")
-    points(x,y, pch=16, col="blue")
-  } else{
-    barplot(y, main = paste("Forecast for longitude: ",lon," / latitude: ",lat, sep=""),
-         sub = "Forecast by Model Eta 15km (CPTEC/INPE, Brazil)", xlab = "Date", col = "blue", lwd =2,
-         ylab = var_eta15km$unit.measure[which(var_eta15km$variable == var)],
-         ylim = c(range(y)[1], range(y)[2]+1), cex.lab = 1.5, cex.main=1.5)
-    mtext(var_eta15km$description[which(var_eta15km$variable == var)], cex=1.5, col="blue")
-    lab<-x[seq(1, length(x), by=24)]
-    axis(1, at=seq(1, length(x), by=24),labels=lab)
-  }
-
-  linha = ceiling((range(y)[2]-range(y)[1])/10)
-  abline(h=seq(range(y)[1],range(y)[2],by=linha), col="black")
-}
-
 
 plot.RCPTEC.meteogram <- function(lon, lat, iTime = NULL, fTime = NULL){
   info <- getWeatherData(lon, lat, "all", iTime, fTime)
@@ -70,7 +32,8 @@ plot.RCPTEC.meteogram <- function(lon, lat, iTime = NULL, fTime = NULL){
     geom_line(data=subset(dat.long,variable=="UR2M"),aes(time,value)) +
     geom_line(data=subset(dat.long,variable=="V10M"),aes(time,value)) +
     geom_line(data=subset(dat.long,variable=="OCIS"),aes(time,value)) +
-    geom_bar(data=subset(dat.long,variable=="PREC"),aes(time,value),stat="identity", color="blue") +
+    geom_bar(data=subset(dat.long,variable=="PREC"),aes(time,value),
+             stat="identity", color="blue", fill="white") +
     ggtitle(paste("Forecast for longitute: ",lon," / latitude: ",lat, sep="")) +
     labs(title = paste("Forecast for longitute: ",lon," / latitude: ",lat, sep=""),
          subtitle = "Forecast by Eta Model 15km",
@@ -92,9 +55,9 @@ plot.RCPTEC.THP <- function(lon, lat, iTime = NULL, fTime = NULL){
   dat.long<-melt(new.data,id.vars="time")
 
   ggplot(dat.long) + geom_line(aes(x=time, y=value, colour=variable)) +
-    geom_density(data=subset(dat.long,variable=="Precipitation"),aes(time,value),stat="identity",
-                 color="orange", fill="orange") +
-    scale_colour_manual(values=c("red","blue","orange")) +
+    geom_bar(data=subset(dat.long,variable=="Precipitation"),aes(time,value),stat="identity",
+                 color="green", fill="white") +
+    scale_colour_manual(values=c("blue","red","green")) +
    labs(title = paste("Forecast for longitute: ",lon," / latitude: ",lat, sep=""),
          subtitle = "Forecast by Eta Model 15km",
          caption = "Source: CPTEC/INPE, Brazil",
@@ -103,4 +66,35 @@ plot.RCPTEC.THP <- function(lon, lat, iTime = NULL, fTime = NULL){
           legend.background = element_rect(fill="gray90", size=.5, linetype="dotted"),
           legend.title=element_blank(),
           legend.text = element_text(size = 10, face = "bold"))
+}
+
+plot.RCPTEC.var <- function(lon, lat, var, iTime = NULL, fTime = NULL){
+  info <- getWeatherData(lon, lat, var, iTime, fTime)
+  datas = as.POSIXct(strptime(colnames(info$Dados),'%Y%m%d%H'))
+
+  new.data = data.frame(time=datas,
+                        Variavel = as.numeric(info$Dados[var,]))
+  if (var == "PREC")
+    new.data$Variavel[which(new.data$Variavel==0)] = NA
+  dat.long<-melt(new.data,id.vars="time")
+
+  if(var!="PREC"){
+    ggplot(dat.long) +
+      geom_line(aes(time, value), color="blue") +
+      geom_point(aes(time, value), color="blue") +
+      labs(title = paste("Forecast for longitute: ",lon," / latitude: ",lat, sep=""),
+           subtitle = paste("Forecast by Eta Model 15km --",
+                            var_eta15km$description[which(var_eta15km$variable == var)]),
+           caption = "Source: CPTEC/INPE, Brazil",
+           x = "Date", y = var_eta15km$unit.measure[which(var_eta15km$variable == var)])
+  } else{
+    ggplot(dat.long) +
+      geom_bar(aes(time,value),stat="identity", color="blue", fill="white") +
+      labs(title = paste("Forecast for longitute: ",lon," / latitude: ",lat, sep=""),
+           subtitle = paste("Forecast by Eta Model 15km --",
+                            var_eta15km$description[which(var_eta15km$variable == var)]),
+           caption = "Source: CPTEC/INPE, Brazil",
+           x = "Date", y = var_eta15km$unit.measure[which(var_eta15km$variable == var)])
+
+  }
 }

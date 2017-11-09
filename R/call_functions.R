@@ -30,7 +30,9 @@ info.RCPTEC.climate()
 
 # Tests for plots functions
 plot.RCPTEC.var(-50.88,-28.51, 'UR2M', "2017110400", "2017110623")
-plot.RCPTEC.var(-50.88,-28.51, 'PREC', "2017110400", "2017110700")
+plot.RCPTEC.var(-50.88,-28.51, 'OCIS', "2017110400", "2017110623")
+plot.RCPTEC.var(-50.88,-28.51, 'PREC', "2017110400", "2017111000")
 
 plot.RCPTEC.meteogram(-50.88,-28.51)
 plot.RCPTEC.THP(-50.88,-28.51)
+

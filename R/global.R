@@ -13,7 +13,7 @@ names(variables)[2] <- c("variable")
 
 # Data-frame com variáveis geradas pelo modelo Eta 15km
 var_eta15km <- data.frame(variable = c("V10M","TP2M","PREC","UR2M","OCIS"),
-                          description = c("wind up 10m (m/s)","temperature up 2m","precipitation",
-                                          "humidity up 2m","solar radiation"),
+                          description = c("Wind up 10m (m/s)","Temperature up 2m","Precipitation",
+                                          "Relative humidity up 2m","Solar radiation"),
                           unit.measure = c("m/s","degrees Celsius","mm","%","W/m^2"),
                           stringsAsFactors = FALSE)
