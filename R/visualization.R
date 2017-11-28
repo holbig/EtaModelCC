@@ -1,12 +1,13 @@
 # Verifica a instalação dos pacotes necessários para o programa
-list.of.packages <- c("jsonlite","ggplot2")
+list.of.packages <- c("jsonlite","ggplot2","reshape2")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
 suppressMessages(library(jsonlite))
 suppressMessages(library(ggplot2))
+suppressMessages(library(reshape2))
 
-source(paste(getwd(),"/R/global.R", sep=""))
+source("R/global.R")
 
 plot.RCPTEC.meteogram <- function(lon, lat, iTime = NULL, fTime = NULL){
   info <- getWeatherData(lon, lat, "all", iTime, fTime)
@@ -98,3 +99,4 @@ plot.RCPTEC.var <- function(lon, lat, var, iTime = NULL, fTime = NULL){
 
   }
 }
+

@@ -5,7 +5,7 @@ if(length(new.packages)) install.packages(new.packages)
 
 suppressMessages(library(jsonlite))
 
-source(paste(getwd(),"/R/global.R", sep=""))
+source("R/global.R")
 
 
 #### Funtions for climate models ###
