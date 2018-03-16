@@ -1,15 +1,6 @@
-# Verifica a instalação dos pacotes necessários para o programa
-list.of.packages <- c("jsonlite")
-new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-if(length(new.packages)) install.packages(new.packages)
-
-suppressMessages(library(jsonlite))
-
-source("R/global.R")
-
-
 #### Funtions for climate models ###
 
+#' @export
 getClimateData<- function(modelID, modelFrequency, modelVar, lon, lat, iMonth = 1, iYear, fMonth = 1, fYear) {
 
   modelOption <- switch(modelFrequency,
@@ -20,7 +11,7 @@ getClimateData<- function(modelID, modelFrequency, modelVar, lon, lat, iMonth = 
 
   api <- paste("https://projeta.cptec.inpe.br/api/v1/public/ETA/", modelID, "/", modelFrequency, modelOption, "/", iMonth, "/", iYear, "/", fMonth, "/", fYear, "/", modelVar, "/", lon, '/',lat,'/', sep="")
 
-  model_data <- fromJSON(api)
+  model_data <- jsonlite::fromJSON(api)
 
   model_output <- switch(modelFrequency,
                          HOURLY = list(Model = "Eta", Couple = models$couple[as.numeric(modelID)],
@@ -64,19 +55,20 @@ getClimateData<- function(modelID, modelFrequency, modelVar, lon, lat, iMonth = 
   model_output
 }
 
-info.RCPTEC.climate <- function(){
+#' @export
+getInfoClimate <- function(){
   cat("Avaiable Models: o modelo (modelID) deve ser acessado pelo valor",
-      "do campo <id>. Verifique o respectivo período de abrangência do modelo:",
+      "do campo <id>. Verifique o respectivo periodo de abrangencia do modelo:",
       "data inicial (iMonth, iYear) e data final (fMonth, fYear)", "", sep = '\n')
   print(models, row.names=FALSE, right=FALSE)
 
   cat (paste("", "modelFrequency - Avaiable frequencies:",
-             "HOURLY : horária de 3 em 3 horas ",
-             "DAILY  : diária",
+             "HOURLY : horaria de 3 em 3 horas ",
+             "DAILY  : diaria",
              "MONTHLY: mensal",
              "YEARLY : anual", "\n", sep='\n'))
 
-  cat("Avaiable Variables - a variável (modelVar) deve ser acessada",
+  cat("Avaiable Variables - a variavel (modelVar) deve ser acessada",
       "pelo seu short name <variable>", sep = '\n')
   print(variables[,c("variable","description")], row.names=FALSE, right=FALSE)
 }

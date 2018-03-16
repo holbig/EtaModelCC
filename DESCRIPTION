@@ -1,11 +1,25 @@
-Package: RCPTEC
+Package: EtaModelCC
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Eta Model Climate Change Data by CPTEC/INPE from R
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Authors@R: c(
+    person("Holbig", "Carlos", role = c("cre","aut"), email = "carlos.holbig@gmail.com"),
+    person("Lopes", "Marina", role = c("aut"), email = "marinadezordi@gmail.com")
+  )
+Maintainer: Carlos Holbig <carlos.holbig@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
+Imports: jsonlite,
+    rgdal,
+    leaflet,
+    ggplot2,
+    reshape2,
+    raster,
+    sp,
+    magrittr,
+    httr
+RoxygenNote: 6.0.1
+Suggests: testthat
