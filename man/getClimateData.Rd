@@ -7,8 +7,27 @@
 getClimateData(modelID, modelFrequency, modelVar, lon, lat, iMonth = 1, iYear,
   fMonth = 1, fYear)
 }
+\arguments{
+\item{modelID}{numeric (model ID).}
+
+\item{modelFrequency}{string (data frequency).}
+
+\item{modelVar}{string (model variable short name).}
+
+\item{lon}{numeric (longitude coordenate).}
+
+\item{lat}{numeric (latitude coordenate).}
+
+\item{iMonth}{numeric (initial month).}
+
+\item{iYear}{numeric (initial year).}
+
+\item{fMonth}{numeric (final month).}
+
+\item{fYear}{numeric (final year).}
+}
 \value{
-TESTE.
+list (list with climate change data)
 }
 \description{
 \code{getClimateData} access the climate change data from CPTEC/INPE.

@@ -4,7 +4,17 @@
 #'
 #' \code{getClimateData} access the climate change data from CPTEC/INPE.
 #'
-#' @return TESTE.
+#' @param modelID numeric (model ID).
+#' @param modelFrequency string (data frequency).
+#' @param modelVar string (model variable short name).
+#' @param lon numeric (longitude coordenate).
+#' @param lat numeric (latitude coordenate).
+#' @param iMonth numeric (initial month).
+#' @param iYear numeric (initial year).
+#' @param fMonth numeric (final month).
+#' @param fYear numeric (final year).
+#'
+#' @return list (list with climate change data)
 #' @examples
 #' getClimateData('1', 'YEARLY','TP2M', '-12', '-49', iYear = 2006, fYear = 2010)
 #' @export
