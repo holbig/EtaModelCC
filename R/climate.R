@@ -1,5 +1,12 @@
 #### Funtions for climate models ###
 
+#' Access the climate change data.
+#'
+#' \code{getClimateData} access the climate change data from CPTEC/INPE.
+#'
+#' @return TESTE.
+#' @examples
+#' getClimateData('1', 'YEARLY','TP2M', '-12', '-49', iYear = 2006, fYear = 2010)
 #' @export
 getClimateData<- function(modelID, modelFrequency, modelVar, lon, lat, iMonth = 1, iYear, fMonth = 1, fYear) {
 

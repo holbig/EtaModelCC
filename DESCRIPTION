@@ -10,20 +10,12 @@ Authors@R: c(
 Maintainer: Carlos Holbig <carlos.holbig@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: GPL-2
 Encoding: UTF-8
 LazyData: true
 Imports: jsonlite,
-    rgdal,
-    leaflet,
-    ggplot2,
-    reshape2,
-    raster,
-    sp,
-    magrittr,
     httr
 RoxygenNote: 6.0.1
-Suggests: testthat,
-    knitr,
+Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr

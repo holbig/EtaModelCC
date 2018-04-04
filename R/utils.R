@@ -1,7 +1,8 @@
 #devtools::use_package("jsonlite") # Defaults to imports
 
-#' @importFrom "ggplot2" "aes" "ggplot"
-#' @importFrom "magrittr" "%>%"
+# #' @importFrom "ggplot2" "aes" "ggplot"
+# #' @importFrom "magrittr" "%>%"
+#' @importFrom "jsonlite" "fromJSON"
 
 # Data-frame com os dados dos modelos de mudanças climaticas
 url <- "https://projeta.cptec.inpe.br/api/v1/public/models"
