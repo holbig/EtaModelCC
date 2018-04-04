@@ -9,7 +9,7 @@ Climate Change Data of South America generated from Eta Model of CPTEC/INPE - Br
     devtools.path = "~/R-dev",
     devtools.install.args = "",
     devtools.name = "Carlos Amaral Holbig",
-    devtools.desc.author = '"Carlos Holbig <holbig@upf.br> [aut, cre]"',
+    devtools.desc.author = '"Carlos Holbig <carlos.holbig@gmail.com> [aut, cre]"',
     devtools.desc.license = "What license is it under?",
     devtools.desc.suggests = NULL,
     devtools.desc = list()

@@ -1,7 +1,8 @@
 Package: EtaModelCC
 Type: Package
-Title: Eta Model Climate Change Data by CPTEC/INPE from R
+Title: Eta Model Climate Change Data of South America generated from Eta Model of CPTEC/INPE
 Version: 0.1.0
+Date: 2018-03-31
 Authors@R: c(
     person("Holbig", "Carlos", role = c("cre","aut"), email = "carlos.holbig@gmail.com"),
     person("Lopes", "Marina", role = c("aut"), email = "marinadezordi@gmail.com")
@@ -22,4 +23,7 @@ Imports: jsonlite,
     magrittr,
     httr
 RoxygenNote: 6.0.1
-Suggests: testthat
+Suggests: testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

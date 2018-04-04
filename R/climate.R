@@ -55,6 +55,13 @@ getClimateData<- function(modelID, modelFrequency, modelVar, lon, lat, iMonth = 
   model_output
 }
 
+#' Information about the climate change data.
+#'
+#' \code{getInfoClimate} returns information about the climate change data accessed from CPTEC/INPE.
+#'
+#' @return Model driven, frequencies and variables.
+#' @examples
+#' getInfoClimate()
 #' @export
 getInfoClimate <- function(){
   cat("Avaiable Models: o modelo (modelID) deve ser acessado pelo valor",
