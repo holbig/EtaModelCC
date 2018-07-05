@@ -4,7 +4,7 @@
 \alias{getClimateData}
 \title{Access the climate change data.}
 \usage{
-getClimateData(modelID, modelFrequency, modelVar, lon, lat, iMonth = 1, iYear,
+getClimateData(modelID, modelFrequency, modelVar, lat, lon, iMonth = 1, iYear,
   fMonth = 1, fYear)
 }
 \arguments{

@@ -7,8 +7,8 @@
 #' @param modelID numeric (model ID).
 #' @param modelFrequency string (data frequency).
 #' @param modelVar string (model variable short name).
-#' @param lon numeric (longitude coordenate).
 #' @param lat numeric (latitude coordenate).
+#' @param lon numeric (longitude coordenate).
 #' @param iMonth numeric (initial month).
 #' @param iYear numeric (initial year).
 #' @param fMonth numeric (final month).
@@ -16,9 +16,8 @@
 #'
 #' @return list (list with climate change data)
 #' @examples
-#' getClimateData('1', 'YEARLY','TP2M', '-12', '-49', iYear = 2006, fYear = 2010)
 #' @export
-getClimateData<- function(modelID, modelFrequency, modelVar, lon, lat, iMonth = 1, iYear, fMonth = 1, fYear) {
+getClimateData<- function(modelID, modelFrequency, modelVar, lat, lon, iMonth = 1, iYear, fMonth = 1, fYear) {
 
   modelOption <- switch(modelFrequency,
                         HOURLY = '/1',
