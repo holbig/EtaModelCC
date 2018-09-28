@@ -4,8 +4,7 @@
 \alias{getClimateData}
 \title{Access the climate change data.}
 \usage{
-getClimateData(modelID, modelFrequency, modelVar, lat, lon, iMonth = 1, iYear,
-  fMonth = 1, fYear)
+getClimateData(modelID, modelFrequency, modelVar, lat, lon, iYear, fYear)
 }
 \arguments{
 \item{modelID}{numeric (model ID).}
@@ -14,15 +13,11 @@ getClimateData(modelID, modelFrequency, modelVar, lat, lon, iMonth = 1, iYear,
 
 \item{modelVar}{string (model variable short name).}
 
-\item{lon}{numeric (longitude coordenate).}
-
 \item{lat}{numeric (latitude coordenate).}
 
-\item{iMonth}{numeric (initial month).}
+\item{lon}{numeric (longitude coordenate).}
 
 \item{iYear}{numeric (initial year).}
-
-\item{fMonth}{numeric (final month).}
 
 \item{fYear}{numeric (final year).}
 }
@@ -33,5 +28,5 @@ list (list with climate change data)
 \code{getClimateData} access the climate change data from CPTEC/INPE.
 }
 \examples{
-getClimateData('1', 'YEARLY','TP2M', '-12', '-49', iYear = 2006, fYear = 2010)
+getClimateData('1', 'YEARLY', 'TP2M', '-28.35', '-52.34', iYear = 2006, fYear = 2010)
 }

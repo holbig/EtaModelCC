@@ -1,11 +1,12 @@
 Package: EtaModelCC
 Type: Package
 Title: Eta Model Climate Change Data of South America generated from Eta Model of CPTEC/INPE
-Version: 0.1.0
-Date: 2018-03-31
+Version: 0.2.0
+Date: 2018-09-28
 Authors@R: c(
-    person("Holbig", "Carlos", role = c("cre","aut"), email = "carlos.holbig@gmail.com"),
-    person("Lopes", "Marina", role = c("aut"), email = "marinadezordi@gmail.com")
+    person("Holbig", "Carlos",  role = c("cre","aut"), email = "carlos.holbig@gmail.com"),
+    person("Lopes",  "Marina",  role = c("aut"), email = "marinadezordi@gmail.com"),
+    person("Lima", " Vinícius", role = c("aut"), email = "110030@upf.br")
   )
 Maintainer: Carlos Holbig <carlos.holbig@gmail.com>
 Description: More about what it does (maybe more than one line)
@@ -15,7 +16,7 @@ Encoding: UTF-8
 LazyData: true
 Imports: jsonlite,
     httr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
