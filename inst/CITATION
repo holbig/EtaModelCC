@@ -1,0 +1,24 @@
+citHeader("To cite EtaModelCC in publications use:")
+
+citEntry(entry = "InProceedings",
+  title = "An {R} package to access climate change data for South America regionalized by the Eta Model of {CPTEC/INPE}",
+  author = "Marina Lopes Dezordi and Carlos Amaral Hölbig and Willingthon Pavan and José Maurício Cunha Fernandes",
+  booktitle = "IX Workshop de Computação Aplicada a Gestão do Meio Ambiente e Recursos Naturais (WCAMA_CSBC 2018)",
+  volume = "9",
+  year = "2018",
+  issn = "2595-6124",
+  publisher = "SBC",
+  address = "Porto Alegre, RS, Brasil",
+  url = "http://portaldeconteudo.sbc.org.br/index.php/wcama/article/view/2934",
+
+  textVersion  =
+  paste("DEZORDI, Marina Lopes; HÖLBIG, Carlos Amaral;",
+        "PAVAN, Willingthon; FERNANDES, José Maurício Cunha.",
+        "An R package to access climate change data for South America",
+        "regionalized by the Eta Model of CPTEC/INPE.",
+        "In: WORKSHOP DE COMPUTAÇÃO APLICADA À GESTÃO DO MEIO AMBIENTE ",
+        "E RECURSOS NATURAIS (WCAMA_CSBC), 9., 2018. 9º Workshop",
+        "de Computação Aplicada a Gestão do Meio Ambiente e Recursos ",
+        "Naturais (WCAMA_CSBC 2018). Porto Alegre: Sociedade Brasileira de ",
+        "Computação, june 2018. ISSN 2595-6124.")
+)

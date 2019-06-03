@@ -1,22 +1,30 @@
 Package: EtaModelCC
 Type: Package
 Title: Eta Model Climate Change Data of South America generated from Eta Model of CPTEC/INPE
-Version: 0.3.0
-Date: 2019-01-11
+Version: 0.8.0
 Authors@R: c(
     person("Holbig", "Carlos",  role = c("cre","aut"), email = "carlos.holbig@gmail.com"),
     person("Lopes",  "Marina",  role = c("aut"), email = "marinadezordi@gmail.com"),
-    person("Lima", " Vinícius", role = c("aut"), email = "110030@upf.br")
+    person("Lima", " Vinícius", role = c("aut"), email = "vini@lvadistribuidora.com.br")
   )
 Maintainer: Carlos Holbig <carlos.holbig@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: GPL-2
+License: BSD_3_clause + file LICENSE
+URL: https://github.com/holbig/EtaModelCC
 Encoding: UTF-8
 LazyData: true
 Imports: jsonlite,
-    httr
-RoxygenNote: 6.1.0
+    httr,
+    ggplot2,
+    raster,
+    leaflet,
+    magrittr,
+    RCurl,
+    rgdal,
+    leafem,
+    sp
+RoxygenNote: 6.1.1
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr

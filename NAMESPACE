@@ -2,5 +2,10 @@
 
 export(getClimateData)
 export(getClimateDataBR)
+export(getClimateDataPontos)
 export(getInfoClimate)
-importFrom("jsonlite","fromJSON")
+export(plotGrafData)
+export(plotMapBR)
+export(plotMapPontos)
+export(plotMapShape)
+importFrom("magrittr","%>%")

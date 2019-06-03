@@ -24,5 +24,7 @@ list (list with climate change data)
 \code{getClimateDataBR} access the Brazil climate change data from CPTEC/INPE.
 }
 \examples{
-getClimateDataBR('1', 'YEARLY', 'TP2M', iYear = 2006, fYear = 2010)
+\dontrun{
+getClimateDataBR('1', 'YEARLY', 'TP2M', iYear = 2006, fYear = 2006)
+}
 }
