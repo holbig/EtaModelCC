@@ -1,7 +1,7 @@
 Package: EtaModelCC
 Type: Package
 Title: Eta Model Climate Change Data of South America generated from Eta Model of CPTEC/INPE
-Version: 0.8.0
+Version: 0.8.5
 Authors@R: c(
     person("Holbig", "Carlos",  role = c("cre","aut"), email = "carlos.holbig@gmail.com"),
     person("Lopes",  "Marina",  role = c("aut"), email = "marinadezordi@gmail.com"),

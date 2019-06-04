@@ -73,11 +73,11 @@ plotMapBR<- function(modelID, modelVar, year){
                        Value = as.numeric(gsub(",", ".", as.character(climate$Data$Value)))
                        )
 
-  sp::coordinates(pontos) <- ~ Latitude + Longitude ### arrumar aqui PROJETA
-  sp::proj4string(pontos) <- sp::proj4string(shape_br)
-  new_pontos <- climate$Data[!is.na(sp::over(pontos, as(shape_br, "SpatialPolygons"))),]
-  r <- raster::rasterFromXYZ(new_pontos[c(1,2,4)])
+  r <- raster::rasterFromXYZ(pontos)
   raster::crs(r) <- sp::CRS("+init=epsg:4326")
+  r <- raster::crop(r, extent(shape_br), snap="out")
+  r_rt <- raster::rasterize(shape_br, r)
+  r <- raster::mask(x=r, mask=r_rt)
 
   paleta = "Blues"
   pal <- leaflet::colorNumeric(palette = paleta, raster::values(r),
@@ -193,7 +193,6 @@ getInfoClimate <- function(){
   print(variables[,c("variable","description")], row.names=FALSE, right=FALSE)
 }
 
-#####################################################################################################
 #' Create a map with the climate data from the shapefile area.
 #'
 #' \code{plotMapShape} create a map with the climate data from the shapefile area.
@@ -235,11 +234,17 @@ plotMapShape<- function(modelID, modelVar, year, folderPath, fileName, subName= 
                        Value = as.numeric(gsub(",", ".", as.character(climate$Data$Value)))
   )
 
-  sp::coordinates(pontos) <- ~ Latitude + Longitude
-  sp::proj4string(pontos) <- sp::proj4string(shape)
-  new_pontos <- climate$Data[!is.na(sp::over(pontos, as(shape, "SpatialPolygons"))),]
-  r <- raster::rasterFromXYZ(new_pontos[c(1,2,4)])
+  #sp::coordinates(pontos) <- ~ Latitude + Longitude
+  #sp::proj4string(pontos) <- sp::proj4string(shape)
+  #new_pontos <- climate$Data[!is.na(sp::over(pontos, as(shape, "SpatialPolygons"))),]
+  #r <- raster::rasterFromXYZ(new_pontos[c(1,2,4)])
+  #raster::crs(r) <- sp::CRS("+init=epsg:4326")
+
+  r <- raster::rasterFromXYZ(pontos)
   raster::crs(r) <- sp::CRS("+init=epsg:4326")
+  r <- raster::crop(r, extent(shape), snap="out")
+  r_rt <- raster::rasterize(shape, r)
+  r <- raster::mask(x=r, mask=r_rt)
 
   paleta = "Blues"
   pal <- leaflet::colorNumeric(palette = paleta, raster::values(r),

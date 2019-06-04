@@ -113,7 +113,7 @@ getClimateData<- function(modelID, modelFrequency, modelVar, lat, lon, iYear, fY
 #' @return list (list with climate change data)
 #' @examples
 #' \dontrun{
-#' getClimateDataBR('1', 'YEARLY', 'TP2M', iYear = 2006, fYear = 2006)
+#' getClimateDataBR(modelID='1', modelFrequency='YEARLY', modelVar='TP2M', iYear = 2006, fYear = 2006)
 #' }
 #' @export
 getClimateDataBR<- function(modelID, modelFrequency, modelVar, iYear, fYear) {
@@ -138,42 +138,46 @@ getClimateDataBR<- function(modelID, modelFrequency, modelVar, iYear, fYear) {
                                        Frequency = modelFrequency,
                                        Variable_name = modelVar,
                                        Variable_description = variables$description[which(variables$variable==modelVar)],
-                                       Data = as.data.frame(cbind(Latitude = model_data$latitude,
-                                                                  Longitude = model_data$longitude,
+                                       Data = as.data.frame(cbind(Latitude = model_data$lat,
+                                                                  Longitude = model_data$lng,
                                                                   Date = model_data$date,
                                                                   Hour = substr(model_data$time, 4, 8),
-                                                                  Value = model_data$val))),
+                                                                  Value = model_data$val),
+                                                            stringsAsFactors=FALSE)),
                          DAILY = list(Model = "Eta", Couple = models$couple[as.numeric(modelID)],
                                       Scenario = models$scenario[as.numeric(modelID)],
                                       Resolution = models$resolution[as.numeric(modelID)],
                                       Frequency = modelFrequency,
                                       Variable_name = modelVar,
                                       Variable_description = variables$description[which(variables$variable==modelVar)],
-                                      Data = as.data.frame(cbind(Latitude = model_data$latitude,
-                                                                 Longitude = model_data$longitude,
+                                      Data = as.data.frame(cbind(Latitude = model_data$lat,
+                                                                 Longitude = model_data$lng,
                                                                  Date = model_data$date,
-                                                                 Value = model_data$val))),
+                                                                 Value = model_data$val),
+                                                           stringsAsFactors=FALSE)),
                          MONTHLY = list(Model = "Eta", Couple = models$couple[as.numeric(modelID)],
                                         Scenario = models$scenario[as.numeric(modelID)],
                                         Resolution = models$resolution[as.numeric(modelID)],
                                         Frequency = modelFrequency,
                                         Variable_name = modelVar,
                                         Variable_description = variables$description[which(variables$variable==modelVar)],
-                                        Data = as.data.frame(cbind(Latitude = model_data$latitude,
-                                                                   Longitude = model_data$longitude,
+                                        Data = as.data.frame(cbind(Latitude = model_data$lat,
+                                                                   Longitude = model_data$lng,
                                                                    Year = substr(model_data$date, 1, 4),
                                                                    Month = substr(model_data$date, 6, 7),
-                                                                   Value = model_data$val))),
+                                                                   Value = model_data$val),
+                                                             stringsAsFactors=FALSE)),
                          YEARLY = list(Model = "Eta", Couple = models$couple[as.numeric(modelID)],
                                        Scenario = models$scenario[as.numeric(modelID)],
                                        Resolution = models$resolution[as.numeric(modelID)],
                                        Frequency = modelFrequency,
                                        Variable_name = modelVar,
                                        Variable_description = variables$description[which(variables$variable==modelVar)],
-                                       Data = as.data.frame(cbind(Latitude = model_data$latitude,
-                                                                  Longitude = model_data$longitude,
+                                       Data = as.data.frame(cbind(Latitude = model_data$lat,
+                                                                  Longitude = model_data$lng,
                                                                   Year = substr(model_data$date, 1, 4),
-                                                                  Value = model_data$val))))
+                                                                  Value = model_data$val),
+                                                            stringsAsFactors=FALSE)))
   model_output
 }
 
