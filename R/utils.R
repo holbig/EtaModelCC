@@ -1,13 +1,5 @@
-# #' @importFrom "jsonlite" "fromJSON"
-# #' @importFrom "ggplot2" "aes" "ggplot"
-# #' @importFrom "raster" "rasterFromXYZ"
-# #' @importFrom "RCurl" "url.exists"
+#' @import "raster"
 #' @importFrom "magrittr" "%>%"
-# #' @importFrom "methods" "as"
-# #' @import "leaflet"
-# #' @import "leafem"
-# #' @import "rgdal"
-# #' @import "sp"
 
 # PROJETA API URL
 projeta_api <- "https://projeta.cptec.inpe.br/api/v1/public/ETA/"
