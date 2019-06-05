@@ -25,6 +25,6 @@ list (list with climate change data)
 }
 \examples{
 \dontrun{
-getClimateDataBR('1', 'YEARLY', 'TP2M', iYear = 2006, fYear = 2006)
+getClimateDataBR(modelID='1', modelFrequency='YEARLY', modelVar='TP2M', iYear = 2006, fYear = 2006)
 }
 }

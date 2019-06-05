@@ -1,6 +1,6 @@
 Package: EtaModelCC
 Type: Package
-Title: Eta Model Climate Change Data of South America generated from Eta Model of CPTEC/INPE
+Title: A package to access climate data from South America of PROJETA repository (CPTEC/INPE)
 Version: 0.8.6
 Authors@R: c(
     person("Holbig", "Carlos",  role = c("cre","aut"), email = "carlos.holbig@gmail.com"),
@@ -8,8 +8,12 @@ Authors@R: c(
     person("Lima", " Vinícius", role = c("aut"), email = "vini@lvadistribuidora.com.br")
   )
 Maintainer: Carlos Holbig <carlos.holbig@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: This package access Eta Model Climate Change data of South America 
+    generated from Eta Model of CPTEC/INPE (Brazil) for a historical period 
+    between 1960 to 2005 and a prevision period between 2006 to 2100. This data 
+    are available from the PROJETA repository (https://projeta.cptec.inpe.br/). 
+    The EtaModelCC is an R package developed by Mosaico research group of 
+    University of Passo Fundo (Brazil).
 License: BSD_3_clause + file LICENSE
 URL: https://github.com/holbig/EtaModelCC
 Encoding: UTF-8
