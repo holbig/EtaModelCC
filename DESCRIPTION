@@ -1,7 +1,7 @@
 Package: EtaModelCC
 Type: Package
 Title: A package to access climate data from South America of PROJETA repository (CPTEC/INPE)
-Version: 0.8.6
+Version: 0.8.7
 Authors@R: c(
     person("Holbig", "Carlos",  role = c("cre","aut"), email = "carlos.holbig@gmail.com"),
     person("Lopes",  "Marina",  role = c("aut"), email = "marinadezordi@gmail.com"),

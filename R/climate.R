@@ -66,7 +66,7 @@ getClimateData<- function(modelID, modelFrequency, modelVar, lat, lon, iYear, fY
                                        Variable_description = variables$description[which(variables$variable==modelVar)],
                                        Latitude = lat, Longitude = lon,
                                        Data = as.data.frame(cbind(Date = model_data$date,
-                                                                  Hour = substr(model_data$time, 4, 8),
+                                                                  Hour = substr(model_data$time, 1, 5),
                                                                   Value = model_data$value))),
                          DAILY = list(Model = "Eta", Couple = models$couple[as.numeric(modelID)],
                                       Scenario = models$scenario[as.numeric(modelID)],
