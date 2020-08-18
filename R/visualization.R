@@ -21,10 +21,10 @@
 plotGrafData<- function(modelID, modelFrequency, modelVar, lat, lon, iYear, fYear) {
   climate <- getClimateData(modelID, modelFrequency, modelVar, lat, lon, iYear, fYear )
 
-  valores = as.numeric(levels(climate$Data$Value)[climate$Data$Value])
+  valores = as.numeric(climate$Data$Value)
 
   data_graf <- switch(modelFrequency,
-                      YEARLY = levels(climate$Data$Year),
+                      YEARLY = climate$Data$Year,
                       MONTHLY = as.Date(paste(climate$Data$Year,"-",
                                               levels(climate$Data$Month),
                                               "-01",sep = "")),
@@ -41,7 +41,7 @@ plotGrafData<- function(modelID, modelFrequency, modelVar, lat, lon, iYear, fYea
                                    models$resolution[which(models$id == modelID)],"km -- ",
                                    variables$name[which(variables$variable == modelVar)]),
                   caption = "Source: CPTEC/INPE, Brazil",
-                  x = "Date", y = variables$description[which(variables$variable == modelVar)])
+                  x = "Date", y = variables$unit[which(variables$variable == modelVar)])
 
 
 }
@@ -67,6 +67,7 @@ plotMapBR<- function(modelID, modelVar, year){
 
   arquivo <- system.file("extdata", package = "EtaModelCC")
   shape_br <- rgdal::readOGR(arquivo, "estados", GDAL1_integer64_policy = TRUE)
+  Encoding(shape_br$nome) <- "UTF-8"
 
   pontos <- data.frame(Longitude = as.numeric(gsub(",", ".", as.character(climate$Data$Longitude))),
                        Latitude = as.numeric(gsub(",", ".", as.character(climate$Data$Latitude))),
@@ -85,6 +86,11 @@ plotMapBR<- function(modelID, modelVar, year){
   pal1 <- leaflet::colorNumeric(palette = paleta, raster::values(r),
                                 na.color = "transparent", reverse = TRUE)
 
+  labels <- sprintf(
+    "<strong>%s (%s)</strong><br/>",
+    shape_br$nome, shape_br$sigla
+  ) %>% lapply(htmltools::HTML)
+
   ## custom label format function
   myLabelFormat = function(..., reverse_order = FALSE){
     if(reverse_order){
@@ -98,13 +104,103 @@ plotMapBR<- function(modelID, modelVar, year){
 
   leaflet::leaflet() %>%
     leaflet::addTiles(attribution = 'Data source: <a href="http://cptec.inpe.br">CPTEC/INPE</a>') %>%
-    leaflet::addPolygons(data=shape_br, color = "black", weight = 1, fillOpacity = 0) %>%
+    leaflet::addPolygons(data=shape_br, color = "black", weight = 1, fillOpacity = 0,
+                         label = labels) %>%
     leaflet::addRasterImage(r, colors = pal, layerId =  "values",opacity = 0.8) %>%
     leafem::addMouseCoordinates() %>%
     leafem::addImageQuery(r, type="mousemove", layerId = "values", position = "topright", digits = 3, prefix = climate$Variable_name)%>%
     leaflet::addLegend(pal = pal1, values = raster::values(r),
                        title = climate$Variable_description,
-                       labFormat = myLabelFormat(reverse_order = T))
+                       labFormat = myLabelFormat(reverse_order = T)) %>%
+    leaflet::addScaleBar(position = "bottomleft")
+}
+
+#' Create a map with Brazil climate change data.
+#'
+#' \code{plotMapBRgg} create a map with Brazil climate change data from CPTEC/INPE using ggplot2.
+#'
+#' @param modelID numeric (model ID).
+#' @param modelVar string (model variable short name).
+#' @param year numeric (year).
+#'
+#' @return map (map with climate change data)
+#' @examples
+#' \dontrun{
+#'  plotMapBRgg('1', 'PREC', 2006)
+#'  plotMapBRgg('1', 'TP2M', 2006)
+#' }
+#' @export
+plotMapBRgg<- function(modelID, modelVar, year){
+
+  #climate <- EtaModelCC::getClimateDataBR("1", 'YEARLY', "PREC", 2006, 2006)
+  climate <- EtaModelCC::getClimateDataBR(modelID, 'YEARLY', modelVar, year, year)
+
+  arquivo <- system.file("extdata", package = "EtaModelCC")
+  shape_br <- rgdal::readOGR(arquivo, "estados", GDAL1_integer64_policy = TRUE)
+  Encoding(shape_br$nome) <- "UTF-8"
+
+  pontos <- data.frame(Longitude = as.numeric(gsub(",", ".", as.character(climate$Data$Longitude))),
+                       Latitude = as.numeric(gsub(",", ".", as.character(climate$Data$Latitude))),
+                       Value = as.numeric(gsub(",", ".", as.character(climate$Data$Value))))
+
+  r <- raster::rasterFromXYZ(pontos)
+  raster::crs(r) <- sp::CRS("+init=epsg:4326")
+  r <- raster::crop(r, raster::extent(shape_br), snap="out")
+  r_rt <- raster::rasterize(shape_br, r)
+  r <- raster::mask(x=r, mask=r_rt)
+
+  # paleta = "Blues"
+  # pal <- leaflet::colorNumeric(palette = paleta, raster::values(r),
+  #                              na.color = "transparent", reverse = FALSE)
+  # pal1 <- leaflet::colorNumeric(palette = paleta, raster::values(r),
+  #                               na.color = "transparent", reverse = TRUE)
+
+  pal <- RColorBrewer::brewer.pal(9, "YlGnBu")
+
+  labels <- sprintf(
+    "<strong>%s (%s)</strong><br/>",
+    shape_br$nome, shape_br$sigla
+  ) %>% lapply(htmltools::HTML)
+
+  ## custom label format function
+  myLabelFormat = function(..., reverse_order = FALSE){
+    if(reverse_order){
+      function(type = "numeric", cuts){
+        cuts <- sort(cuts, decreasing = T)
+      }
+    }else{
+      labelFormat(...)
+    }
+  }
+
+  # base map using ggspatial functions and OSM data
+  basemap <- ggplot2::ggplot(shape_br) +
+    ggspatial::annotation_map_tile(zoom = 5, quiet = TRUE) +
+    ggspatial::annotation_scale(location = "br", height = unit(0.1, "cm")) +
+    ggspatial::annotation_north_arrow(location = "tl",
+                           style = north_arrow_nautical,
+                           height = unit(0.5, "cm"),
+                           width = unit(0.5, "cm"))
+  p2 <- basemap +
+    ggplot2::geom_raster(data = pontos, aes(x=Longitude,y=Latitude,fill=Value)) +
+    ggplot2::geom_sf(fill = NA) +
+    ggplot2::scale_fill_gradientn(colors = pal, limits = c(440, 2950)) +
+    ggplot2::labs(x = "Lon", y = "Lat", fill = climate$Variable_unit,
+         title = climate$Variable_description,
+         caption = "Year average: 1205.846 [mm]") +
+    ggplot2::theme_bw()
+
+  # leaflet::leaflet() %>%
+  #   leaflet::addTiles(attribution = 'Data source: <a href="http://cptec.inpe.br">CPTEC/INPE</a>') %>%
+  #   leaflet::addPolygons(data=shape_br, color = "black", weight = 1, fillOpacity = 0,
+  #                        label = labels) %>%
+  #   leaflet::addRasterImage(r, colors = pal, layerId =  "values",opacity = 0.8) %>%
+  #   leafem::addMouseCoordinates() %>%
+  #   leafem::addImageQuery(r, type="mousemove", layerId = "values", position = "topright", digits = 3, prefix = climate$Variable_name)%>%
+  #   leaflet::addLegend(pal = pal1, values = raster::values(r),
+  #                      title = climate$Variable_description,
+  #                      labFormat = myLabelFormat(reverse_order = T)) %>%
+  #   leaflet::addScaleBar(position = "bottomleft")
 }
 
 
@@ -190,7 +286,7 @@ getInfoClimate <- function(){
 
   cat("Available Variables - a variavel (modelVar) deve ser acessada",
       "pelo seu short name <variable>", sep = '\n')
-  print(variables[,c("variable","description")], row.names=FALSE, right=FALSE)
+  print(variables[,c("variable","description","unit")], row.names=FALSE, right=FALSE)
 }
 
 #' Create a map with the climate data from the shapefile area.

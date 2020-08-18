@@ -64,7 +64,8 @@ getClimateData<- function(modelID, modelFrequency, modelVar, lat, lon, iYear, fY
                                        Frequency = modelFrequency,
                                        Variable_name = modelVar,
                                        Variable_description = variables$description[which(variables$variable==modelVar)],
-                                       Latitude = lat, Longitude = lon,
+                                       Latitude = lat,
+                                       Longitude = lon,
                                        Data = as.data.frame(cbind(Date = model_data$date,
                                                                   Hour = substr(model_data$time, 1, 5),
                                                                   Value = model_data$value))),
@@ -74,7 +75,8 @@ getClimateData<- function(modelID, modelFrequency, modelVar, lat, lon, iYear, fY
                                       Frequency = modelFrequency,
                                       Variable_name = modelVar,
                                       Variable_description = variables$description[which(variables$variable==modelVar)],
-                                      Latitude = lat, Longitude = lon,
+                                      Latitude = lat,
+                                      Longitude = lon,
                                       Data = as.data.frame(cbind(Date = model_data$date,
                                                                  Value = model_data$value))),
                          MONTHLY = list(Model = "Eta", Couple = models$couple[as.numeric(modelID)],
@@ -83,7 +85,8 @@ getClimateData<- function(modelID, modelFrequency, modelVar, lat, lon, iYear, fY
                                         Frequency = modelFrequency,
                                         Variable_name = modelVar,
                                         Variable_description = variables$description[which(variables$variable==modelVar)],
-                                        Latitude = lat, Longitude = lon,
+                                        Latitude = lat,
+                                        Longitude = lon,
                                         Data = as.data.frame(cbind(Year = substr(model_data$date, 1, 4),
                                                                    Month = substr(model_data$date, 6, 7),
                                                                    Value = model_data$value))),
@@ -93,9 +96,10 @@ getClimateData<- function(modelID, modelFrequency, modelVar, lat, lon, iYear, fY
                                        Frequency = modelFrequency,
                                        Variable_name = modelVar,
                                        Variable_description = variables$description[which(variables$variable==modelVar)],
-                                       Latitude = lat, Longitude = lon,
+                                       Latitude = lat,
+                                       Longitude = lon,
                                        Data = as.data.frame(cbind(Year = substr(model_data$date, 1, 4),
-                                                                  Value = model_data$value))))
+                                                                  Value = as.numeric(model_data$value)))))
   model_output
 }
 

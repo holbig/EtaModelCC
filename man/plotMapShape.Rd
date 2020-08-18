@@ -4,8 +4,15 @@
 \alias{plotMapShape}
 \title{Create a map with the climate data from the shapefile area.}
 \usage{
-plotMapShape(modelID, modelVar, year, folderPath, fileName,
-  subName = NULL, subNameValue = NULL)
+plotMapShape(
+  modelID,
+  modelVar,
+  year,
+  folderPath,
+  fileName,
+  subName = NULL,
+  subNameValue = NULL
+)
 }
 \arguments{
 \item{modelID}{numeric (model ID).}
