@@ -24,35 +24,40 @@ load(paste0(system.file("extdata", package = "EtaModelCC"),"/units.Rda"))
 variables <- merge(variables,units[,c("variable","unit")], by="variable", all.x = TRUE)
 
 #LON LAT
-latMin <- -35.05 #-35.1
-latMax <- 5.90 #7.1
-lonMin <- -75.05 #-76.7
-lonMax <- -33.95 #-32.01
+latMin <- -35.1  # -35.05
+latMax <-   5.9  #   5.90
+lonMin <- -76.7  # -75.05
+lonMax <- -32.01 # -33.95
 
 checkCoordinates <- function(lat, lon){
 
   lat <- as.numeric(lat)
   lon <- as.numeric(lon)
 
-  if(lat < latMin || lat > latMax){
-    if(lon < lonMin || lon > lonMax){
+  if((lat < latMin || lat > latMax) && (lon < lonMin || lon > lonMax)){
+    #if(lon < lonMin || lon > lonMax){
       stop(paste("Coordenadas de LATITUDE(",lat,") e LONGITUDE(",lon,") fora da faixa de dados da previsao \n",
                  "AREA COVERED IN THE MODEL:\n",
                  "--> LONGITUDE:   ", lonMin ,"to ",lonMax,"\n",
                  "--> LATITUDE :   ",latMin," to   ",latMax,"\n"))
     }
-    stop(paste("Coordenada de LATITUDE(",lat,") fora da faixa de dados da previsao \n",
-               "AREA COVERED IN THE MODEL:\n",
-               "--> LONGITUDE:   ", lonMin ,"to ",lonMax,"\n",
-               "--> LATITUDE :   ",latMin," to   ",latMax,"\n"))
-  }
-  else{
-    if(lon < lonMin || lon > lonMax)
-      stop(paste("Coordenada de LONGITUDE(",lon,") fora da faixa de dados da previsao \n",
-                 "AREA COVERED IN THE MODEL:\n",
-                 "--> LONGITUDE:   ", lonMin ,"to ",lonMax,"\n",
-                 "--> LATITUDE :   ",latMin," to   ",latMax,"\n"))
-  }
+#else{
+      if(lat < latMin || lat > latMax){
+        stop(paste("Coordenada de LATITUDE(",lat,") fora da faixa de dados da previsao \n",
+                   "AREA COVERED IN THE MODEL:\n",
+                   "--> LONGITUDE:   ", lonMin ,"to ",lonMax,"\n",
+                   "--> LATITUDE :   ",latMin," to   ",latMax,"\n"))
+      }
+    #}
+    #else{
+      if(lon < lonMin || lon > lonMax){
+        stop(paste("Coordenada de LONGITUDE(",lon,") fora da faixa de dados da previsao \n",
+                   "AREA COVERED IN THE MODEL:\n",
+                   "--> LONGITUDE:   ", lonMin ,"to ",lonMax,"\n",
+                   "--> LATITUDE :   ",latMin," to   ",latMax,"\n"))
+      }
+    #}
+  #}
 }
 
 
