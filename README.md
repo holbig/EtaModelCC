@@ -2,7 +2,7 @@
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
 
-# EtaModelCC <a href='https://github.com/holbig/EtaModelCC'><img src='man/figures/EtaModelCC.png' align="right" height="139" /></a>
+# EtaModelCC
 
 **EtaModelCC** is a R package to access high resolution climate change projections over Central and South America of [PROJETA](https://projeta.cptec.inpe.br/) plataform ([CPTEC/INPE](http://www.cptec.inpe.br)) using the [Eta model](http://etamodel.cptec.inpe.br). The **EtaModelCC** is developed by Mosaico research group at [University of Passo Fundo](https://www.upf.br) (Brazil).
 
