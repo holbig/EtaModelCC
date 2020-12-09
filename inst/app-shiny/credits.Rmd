@@ -1,0 +1,19 @@
+---
+title: "Projeta APP"
+author: "Carlos Holbig"
+date: "26 de outubro de 2020"
+output: html_document
+---
+
+<style type = "text/css">
+h1,h2,h3 {color: black;}
+</style>
+
+## Projeta Dashboard
+### Version 0.9 - 2020 UPF
+
+<span style="color:black">
+Developed by Carlos Amaral Hölbig<br><br>
+Mosaico Research Group<br><br>
+University of Passo Fundo
+</span>

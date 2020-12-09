@@ -19,8 +19,6 @@ variables <- as.data.frame(variables$data[,c(1,3,2,4)])
 names(variables)[2] <- c("variable")
 
 load(paste0(system.file("extdata", package = "EtaModelCC"),"/units.Rda"))
-#names(units)[5] <- "unit"
-#save(units, file = "units.Rda")
 variables <- merge(variables,units[,c("variable","unit")], by="variable", all.x = TRUE)
 
 #LON LAT

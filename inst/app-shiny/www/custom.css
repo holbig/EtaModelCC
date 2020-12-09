@@ -1,0 +1,46 @@
+/* logo */
+.skin-blue .main-header .logo {
+ background-color: #ffffff;
+}
+
+/* logo when hovered */
+.skin-blue .main-header .logo:hover {
+ background-color: #ffffff;
+}
+
+/* navbar (rest of the header) */
+.skin-blue .main-header .navbar {
+ background-color: #ffffff;
+}
+                              
+/* main sidebar */
+.skin-blue .main-sidebar {
+ background-color: #0066cc;
+}
+
+/* body */
+.content-wrapper, .right-side {
+ background-color: #ffffff;
+}
+
+/* insert text in navbar */
+.myClass { 
+ font-size: 20px;
+ line-height: 35px;
+ text-align: left;
+ font-family: Arial,sans-serif;
+ padding: 0 0px;
+ overflow: hidden;
+ color: black;
+}
+
+/* active selected tab in the sidebarmenu */
+.skin-blue .main-sidebar .sidebar .sidebar-menu .active a{
+ background-color: #0066cc;
+}
+
+/* other links in the sidebarmenu */
+.skin-blue .main-sidebar .sidebar .sidebar-menu a{
+ background-color: #00ff00;
+ color: #000000;
+}

@@ -66,8 +66,7 @@ plotMapBR<- function(modelID, modelVar, year){
   climate <- getClimateDataBR(modelID, 'YEARLY', modelVar, year, year)
 
   arquivo <- system.file("extdata", package = "EtaModelCC")
-  shape_br <- rgdal::readOGR(arquivo, "estados", GDAL1_integer64_policy = TRUE)
-  Encoding(shape_br$nome) <- "UTF-8"
+  load(paste0(arquivo,"/shape_br.Rda"))
 
   pontos <- data.frame(Longitude = as.numeric(gsub(",", ".", as.character(climate$Data$Longitude))),
                        Latitude = as.numeric(gsub(",", ".", as.character(climate$Data$Latitude))),
@@ -80,7 +79,10 @@ plotMapBR<- function(modelID, modelVar, year){
   r_rt <- raster::rasterize(shape_br, r)
   r <- raster::mask(x=r, mask=r_rt)
 
-  paleta = "Blues"
+  if(modelVar == "PREC")
+    paleta = "Blues"
+  else
+    paleta = "YlOrRd"
   pal <- leaflet::colorNumeric(palette = paleta, raster::values(r),
                                na.color = "transparent", reverse = FALSE)
   pal1 <- leaflet::colorNumeric(palette = paleta, raster::values(r),
@@ -136,8 +138,7 @@ plotMapBRgg<- function(modelID, modelVar, year){
   climate <- EtaModelCC::getClimateDataBR(modelID, 'YEARLY', modelVar, year, year)
 
   arquivo <- system.file("extdata", package = "EtaModelCC")
-  shape_br <- rgdal::readOGR(arquivo, "estados", GDAL1_integer64_policy = TRUE)
-  Encoding(shape_br$nome) <- "UTF-8"
+  load(paste0(arquivo,"/shape_br.Rda"))
 
   pontos <- data.frame(Longitude = as.numeric(gsub(",", ".", as.character(climate$Data$Longitude))),
                        Latitude = as.numeric(gsub(",", ".", as.character(climate$Data$Latitude))),
@@ -228,7 +229,7 @@ plotMapPontos<- function(modelID, modelVar, lat1, lon1, lat2, lon2, year) {
   climate <- getClimateDataPontos(modelID, modelVar, lat1, lon1, lat2, lon2, year)
 
   arquivo <- system.file("extdata", package = "EtaModelCC")
-  shape_br <- rgdal::readOGR(arquivo, "estados", GDAL1_integer64_policy = TRUE)
+  load(paste0(arquivo,"/shape_br.Rda"))
 
   r <- raster::rasterFromXYZ(climate$Data[c(2,1,4)])
   raster::crs(r) <- sp::CRS("+init=epsg:4326")
@@ -311,34 +312,27 @@ getInfoClimate <- function(){
 #' @export
 plotMapShape<- function(modelID, modelVar, year, folderPath, fileName, subName= NULL, subNameValue = NULL){
 
-  climate <- getClimateDataBR(modelID, 'YEARLY', modelVar, year, year)
+  #climate <- getClimateDataBR(modelID, 'YEARLY', modelVar, year, year)
 
   arquivo <- folderPath
   shape <- rgdal::readOGR(arquivo, fileName, GDAL1_integer64_policy = TRUE)
 
-  # if(!is.null(subName) & !is.null(subName)){
-  #   command <- paste("shape[shape$",subName," %in% \"",subNameValue,"\",]", sep = "")
-  #
-  #   shape <- eval(parse(text=command))
-  # }
   if(!is.null(subName) & !is.null(subNameValue)){
     shape <- shape[shape@data[,subName] %in% subNameValue,]
   }
+
+  climate <- getClimateDataPontos(modelID, modelVar,
+                                  shape@bbox[[2]], shape@bbox[[1]],
+                                  shape@bbox[[4]], shape@bbox[[3]], year)
 
   pontos <- data.frame(Longitude = as.numeric(gsub(",", ".", as.character(climate$Data$Longitude))),
                        Latitude = as.numeric(gsub(",", ".", as.character(climate$Data$Latitude))),
                        Value = as.numeric(gsub(",", ".", as.character(climate$Data$Value)))
   )
 
-  #sp::coordinates(pontos) <- ~ Latitude + Longitude
-  #sp::proj4string(pontos) <- sp::proj4string(shape)
-  #new_pontos <- climate$Data[!is.na(sp::over(pontos, as(shape, "SpatialPolygons"))),]
-  #r <- raster::rasterFromXYZ(new_pontos[c(1,2,4)])
-  #raster::crs(r) <- sp::CRS("+init=epsg:4326")
-
   r <- raster::rasterFromXYZ(pontos)
   raster::crs(r) <- sp::CRS("+init=epsg:4326")
-  r <- raster::crop(r, extent(shape), snap="out")
+  #r <- raster::crop(r, raster::extent(shape), snap="out")
   r_rt <- raster::rasterize(shape, r)
   r <- raster::mask(x=r, mask=r_rt)
 
@@ -367,5 +361,24 @@ plotMapShape<- function(modelID, modelVar, year, folderPath, fileName, subName= 
     leafem::addImageQuery(r, type="mousemove", layerId = "values", position = "topright", digits = 3, prefix = climate$Variable_name)%>%
     leaflet::addLegend(pal = pal1, values = raster::values(r),
                        title = climate$Variable_description,
-                       labFormat = myLabelFormat(reverse_order = T))
+                       labFormat = myLabelFormat(reverse_order = T)) %>%
+    leaflet::addScaleBar(position = "bottomleft")
+}
+
+#' Create a app shiny to access data from Projeta database.
+#'
+#' \code{ProjetaVisual} app shiny to access data from Projeta database.
+#'
+#' @examples
+#' \dontrun{
+#'   ProjetaVisual()
+#' }
+#' @export
+ProjetaVisual <- function() {
+  appDir <- system.file("app-shiny", package = "EtaModelCC")
+  if (appDir == "") {
+    stop("Could not find directory", call. = FALSE)
+  }
+
+  shiny::runApp(appDir, display.mode = "normal")
 }
