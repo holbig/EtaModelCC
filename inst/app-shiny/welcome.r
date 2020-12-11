@@ -1,15 +1,13 @@
 tabPanel("AboutRCPS",
          h2("Welcome"),
          HTML('
-		<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras hendrerit metus vel consectetur dignissim. Nam egestas dapibus purus at vehicula. Cras at libero varius, lacinia est finibus, rutrum libero. Etiam finibus ante mi, fermentum vulputate sem consectetur vitae. Donec dolor dui, fringilla sit amet laoreet sed, interdum eget metus. In pellentesque sapien eu nulla tincidunt, nec efficitur lectus finibus. Nullam et hendrerit libero, vel ultrices nulla. Sed et risus eu metus faucibus lacinia nec ut massa. Vestibulum tellus sapien, vestibulum id scelerisque non, pharetra ut risus. Curabitur dignissim blandit tortor, vitae viverra augue mattis placerat. In euismod lacus ipsum, eget porta elit posuere non.
-
-Fusce rhoncus magna magna, sed convallis eros vestibulum sed. Nam quis dolor in sapien egestas ornare. Pellentesque placerat dictum enim eget vulputate. Nulla et tempor mi. Integer in sollicitudin orci. Etiam commodo vulputate arcu vitae tempor. In hac habitasse platea dictumst. Donec egestas eleifend lectus. Donec malesuada, libero sit amet laoreet dignissim, felis massa placerat felis, nec rutrum erat odio eu sem. Nunc ac facilisis libero, consectetur feugiat libero. Fusce at quam semper, auctor enim vitae, accumsan quam. Nullam fermentum libero dui, ac imperdiet lacus dictum quis. Nulla dui velit, elementum sed urna in, rutrum ultrices nunc. Etiam convallis elementum massa, eget mollis nunc pharetra id. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
-
-Etiam vitae ipsum commodo, ullamcorper nunc nec, rutrum mauris. Vivamus ex elit, tempor ac risus a, pulvinar finibus ipsum. Quisque erat libero, dignissim in pulvinar sed, malesuada ultrices massa. Vestibulum sed consequat arcu. Aenean tristique nisl in dapibus tempus. Nam ultricies, elit sit amet condimentum dapibus, tellus ex tempus nunc, non vulputate dui ante et nibh. Fusce vel rutrum ante, nec suscipit nisl. Curabitur ut felis et erat placerat gravida. Cras vitae suscipit odio, sit amet lobortis diam. Nam odio massa, viverra at auctor non, porttitor eu nisi. Nulla facilisi. Vestibulum quis urna ut nulla blandit sagittis id imperdiet ex. In vel mi nunc.
-
-Aenean quis lacinia magna. Aliquam eu rutrum elit. Mauris odio felis, venenatis vel ante et, molestie molestie nibh. Nunc egestas, lectus ac tempus imperdiet, mi purus commodo est, non cursus sem nulla ac elit. Fusce et consectetur nibh. Nunc ultrices quis sapien eget tristique. Vivamus rutrum interdum metus sit amet finibus. Fusce et massa velit. Cras vitae libero id leo molestie condimentum eu ut quam. Mauris et tempor arcu. Nam accumsan placerat augue, vitae maximus nunc egestas at. Nulla sit amet varius ante, non efficitur magna. Donec pharetra, metus in porta eleifend, lorem erat fringilla risus, tincidunt condimentum enim metus id elit.
-
-Pellentesque volutpat condimentum diam sit amet gravida. Sed tincidunt eros nec dui finibus, at vehicula libero egestas. Ut semper velit ut metus hendrerit, id laoreet lorem semper. Nunc scelerisque convallis dignissim. Curabitur ut fermentum dui. Suspendisse viverra magna in nisl ultricies bibendum. Integer fringilla turpis arcu, ut sodales ex convallis ut. Maecenas semper dolor cursus commodo malesuada. Maecenas elementum accumsan nisi a faucibus. Nulla eget nisl leo. Vestibulum dictum ex vel tempus iaculis. Praesent elit nunc, eleifend a erat quis, cursus feugiat nunc..</p>' 
+              <p> Projeta Visual is a module for visualizing climate change data provided by the Projeta platform of CPTEC/INPE.</p>
+              <p>This application was developed by the Mosaico research group at the University of Passo Fundo. For more information, access the <b>"About > About Projeta"</b> tab. 
+              This application as part of <a href="https://github.com/holbig/EtaModelCC" target="_blank">EtaModelCC</a> package</p>
+    
+              <p><b>Mosaico Team</b></p>
+         
+              <div class="pull-left">Copyright &copy; 2020 Universidade de Passo Fundo </div>'
          ),
     value="Welcome",
 )
