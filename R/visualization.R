@@ -1,4 +1,3 @@
-#### Funtions for climate models ###
 
 #' Create a graph with climate change data.
 #'
@@ -61,9 +60,9 @@ plotGrafData<- function(modelID, modelFrequency, modelVar, lat, lon, iYear, fYea
 #'  plotMapBR('1', 'TP2M', 2006)
 #' }
 #' @export
-plotMapBR<- function(modelID, modelVar, year){
+plotMapBR<- function(modelID, modelVar, iYear, fYear){
 
-  climate <- getClimateDataBR(modelID, 'YEARLY', modelVar, year, year)
+  climate <- getClimateDataBR(modelID, 'YEARLY', modelVar, iYear, fYear)
 
   arquivo <- system.file("extdata", package = "EtaModelCC")
   load(paste0(arquivo,"/shape_br.Rda"))
