@@ -29,7 +29,7 @@ map (map with climate change data from the rectangular area between 2 points)
 }
 \examples{
 \dontrun{
- plotMapPontos('2', 'PREC','-27.26', '-57.10', '-33.67', '-48.85', year = 2006)
- plotMapPontos('2', 'PREC', '-35.05','-23.95','5.9','-75.05', year = 2006)
+ plotMapPontos('1', 'PREC','-27.26', '-57.10', '-33.67', '-48.85', year = 2021)
+ plotMapPontos('2', 'PREC', '-35.1','-32.01','5.9','-75.05', year = 2021)
 }
 }

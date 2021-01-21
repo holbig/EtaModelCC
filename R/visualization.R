@@ -1,5 +1,27 @@
 #### Funtions for climate models ###
 
+## custom label format function
+myLabelFormat = function(..., reverse_order = FALSE){
+  if(reverse_order){
+    function(type = "numeric", cuts){
+      cuts <- sort(cuts, decreasing = T)
+    }
+  }else{
+    labelFormat(...)
+  }
+}
+
+## define color palette acording of a weather variable
+pal_weather <- function(variavel){
+  switch (variavel,
+          "PREC" = "Blues",
+          "OCIS" = "Reds",
+          "TP2M" = colorRamps::blue2red(10),
+          "DP2M" = colorRamps::blue2red(10),
+          "YlOrRd"
+          )
+}
+
 #' Create a graph with climate change data.
 #'
 #' \code{plotGrafData} create a graph with climate change data from CPTEC/INPE.
@@ -75,14 +97,12 @@ plotMapBR<- function(modelID, modelVar, year){
 
   r <- raster::rasterFromXYZ(pontos)
   raster::crs(r) <- sp::CRS("+init=epsg:4326")
-  r <- raster::crop(r, extent(shape_br), snap="out")
+  r <- raster::crop(r, raster::extent(shape_br), snap="out")
   r_rt <- raster::rasterize(shape_br, r)
   r <- raster::mask(x=r, mask=r_rt)
 
-  if(modelVar == "PREC")
-    paleta = "Blues"
-  else
-    paleta = "YlOrRd"
+  paleta <- pal_weather(modelVar)
+
   pal <- leaflet::colorNumeric(palette = paleta, raster::values(r),
                                na.color = "transparent", reverse = FALSE)
   pal1 <- leaflet::colorNumeric(palette = paleta, raster::values(r),
@@ -93,26 +113,19 @@ plotMapBR<- function(modelID, modelVar, year){
     shape_br$nome, shape_br$sigla
   ) %>% lapply(htmltools::HTML)
 
-  ## custom label format function
-  myLabelFormat = function(..., reverse_order = FALSE){
-    if(reverse_order){
-      function(type = "numeric", cuts){
-        cuts <- sort(cuts, decreasing = T)
-      }
-    }else{
-      labelFormat(...)
-    }
-  }
-
   leaflet::leaflet() %>%
-    leaflet::addTiles(attribution = 'Data source: <a href="http://cptec.inpe.br">CPTEC/INPE</a>') %>%
+    leaflet::addTiles(
+      attribution = paste0('<b>Variable:</b> ', climate$Variable_description,
+                           ', <b>Year: </b>', year,
+                           ' | <b>Data source: </b><a href="http://cptec.inpe.br">CPTEC/INPE</a>')) %>%
     leaflet::addPolygons(data=shape_br, color = "black", weight = 1, fillOpacity = 0,
                          label = labels) %>%
-    leaflet::addRasterImage(r, colors = pal, layerId =  "values",opacity = 0.8) %>%
+    leaflet::addRasterImage(r, colors = pal, layerId =  "values", opacity = 0.8) %>%
     leafem::addMouseCoordinates() %>%
-    leafem::addImageQuery(r, type="mousemove", layerId = "values", position = "topright", digits = 3, prefix = climate$Variable_name)%>%
+    leafem::addImageQuery(r, type="mousemove", layerId = "values", position = "topright") %>%
     leaflet::addLegend(pal = pal1, values = raster::values(r),
-                       title = climate$Variable_description,
+                       title = paste0(climate$Variable_name,' (',
+                                      units$unit[which(climate$Variable_name == units$variable)],')'),
                        labFormat = myLabelFormat(reverse_order = T)) %>%
     leaflet::addScaleBar(position = "bottomleft")
 }
@@ -220,8 +233,8 @@ plotMapBRgg<- function(modelID, modelVar, year){
 #' @return map (map with climate change data from the rectangular area between 2 points)
 #' @examples
 #' \dontrun{
-#'  plotMapPontos('2', 'PREC','-27.26', '-57.10', '-33.67', '-48.85', year = 2006)
-#'  plotMapPontos('2', 'PREC', '-35.05','-23.95','5.9','-75.05', year = 2006)
+#'  plotMapPontos('1', 'PREC','-27.26', '-57.10', '-33.67', '-48.85', year = 2021)
+#'  plotMapPontos('2', 'PREC', '-35.1','-32.01','5.9','-75.05', year = 2021)
 #' }
 #' @export
 plotMapPontos<- function(modelID, modelVar, lat1, lon1, lat2, lon2, year) {
@@ -234,33 +247,27 @@ plotMapPontos<- function(modelID, modelVar, lat1, lon1, lat2, lon2, year) {
   r <- raster::rasterFromXYZ(climate$Data[c(2,1,4)])
   raster::crs(r) <- sp::CRS("+init=epsg:4326")
 
-  paleta = "Blues"
+  paleta <- pal_weather(modelVar)
+
   pal <- leaflet::colorNumeric(palette = paleta, raster::values(r),
                                na.color = "transparent", reverse = FALSE)
   pal1 <- leaflet::colorNumeric(palette = paleta, raster::values(r),
                                 na.color = "transparent", reverse = TRUE)
-
-  ## custom label format function
-  myLabelFormat = function(..., reverse_order = FALSE){
-    if(reverse_order){
-      function(type = "numeric", cuts){
-        cuts <- sort(cuts, decreasing = T)
-      }
-    }else{
-      labelFormat(...)
-    }
-  }
-
   leaflet::leaflet() %>%
-    leaflet::addTiles(attribution = 'Data source: <a href="http://cptec.inpe.br">CPTEC/INPE</a>') %>%
+    leaflet::addTiles(attribution =
+                        paste0('<b>Variable:</b> ', climate$Variable_description,
+                               ', <b>Year: </b>', year,
+                               ' | <b>Data source: </b><a href="http://cptec.inpe.br">CPTEC/INPE</a>')) %>%
     leaflet::addPolygons(data=shape_br, color = "black", weight = 1, fillOpacity = 0) %>%
     leaflet::addRasterImage(r, colors = pal, layerId =  "values",opacity = 0.8) %>%
     leafem::addMouseCoordinates() %>%
     leafem::addImageQuery(r, type="mousemove", layerId = "values", position = "topright", digits = 3, prefix = climate$Variable_name)%>%
     leaflet::fitBounds(lon1, lat1, lon2, lat2) %>%
     leaflet::addLegend(pal = pal1, values = raster::values(r),
-                       title = climate$Variable_description,
-                       labFormat = myLabelFormat(reverse_order = T))
+                       title = paste0(climate$Variable_name,' (',
+                                      units$unit[which(climate$Variable_name == units$variable)],')'),
+                       labFormat = myLabelFormat(reverse_order = T)) %>%
+    leaflet::addScaleBar(position = "bottomleft")
 
 }
 
@@ -336,32 +343,24 @@ plotMapShape<- function(modelID, modelVar, year, folderPath, fileName, subName= 
   r_rt <- raster::rasterize(shape, r)
   r <- raster::mask(x=r, mask=r_rt)
 
-  paleta = "Blues"
+  paleta <- pal_weather(modelVar)
+
   pal <- leaflet::colorNumeric(palette = paleta, raster::values(r),
                                na.color = "transparent", reverse = FALSE)
   pal1 <- leaflet::colorNumeric(palette = paleta, raster::values(r),
                                 na.color = "transparent", reverse = TRUE)
 
-  ## custom label format function
-  myLabelFormat = function(..., reverse_order = FALSE){
-    if(reverse_order){
-      function(type = "numeric", cuts){
-        cuts <- sort(cuts, decreasing = T)
-      }
-    }else{
-      labelFormat(...)
-    }
-  }
-
   leaflet::leaflet() %>%
-    leaflet::addTiles(attribution = 'Data source: <a href="http://cptec.inpe.br">CPTEC/INPE</a>') %>%
-    leaflet::addPolygons(data=shape, color = "black", weight = 1, fillOpacity = 0) %>%
+    leaflet::addTiles(attribution =
+                        paste0('<b>Variable:</b> ', climate$Variable_description,
+                               ', <b>Year: </b>', year,
+                               ' | <b>Data source: </b><a href="http://cptec.inpe.br">CPTEC/INPE</a>')) %>%    leaflet::addPolygons(data=shape, color = "black", weight = 1, fillOpacity = 0) %>%
     leaflet::addRasterImage(r, colors = pal, layerId =  "values",opacity = 0.8) %>%
     leafem::addMouseCoordinates() %>%
     leafem::addImageQuery(r, type="mousemove", layerId = "values", position = "topright", digits = 3, prefix = climate$Variable_name)%>%
     leaflet::addLegend(pal = pal1, values = raster::values(r),
-                       title = climate$Variable_description,
-                       labFormat = myLabelFormat(reverse_order = T)) %>%
+                       title = paste0(climate$Variable_name,' (',
+                                      units$unit[which(climate$Variable_name == units$variable)],')'),                       labFormat = myLabelFormat(reverse_order = T)) %>%
     leaflet::addScaleBar(position = "bottomleft")
 }
 
