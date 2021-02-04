@@ -2,5 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
+_pkgdown.yml
 inst/doc
-docs
