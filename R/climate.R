@@ -42,6 +42,9 @@ getInfoClimate <- function(){
 #' @export
 getClimateData<- function(modelID, modelFrequency, modelVar, lat, lon, iYear, fYear) {
 
+  modelFrequency = toupper(modelFrequency)
+  modelVar = toupper(modelVar)
+
   checkCoordinates(lat, lon)
 
   modelOption <- switch(modelFrequency,
