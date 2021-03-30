@@ -47,13 +47,12 @@ plotGrafData<- function(modelID, modelFrequency, modelVar, lat, lon, iYear, fYea
 
   data_graf <- switch(modelFrequency,
                       YEARLY = climate$Data$Year,
-                      MONTHLY = as.Date(paste(climate$Data$Year,"-",
-                                              levels(climate$Data$Month),
-                                              "-01",sep = "")),
+                      MONTHLY = as.Date(paste0(climate$Data$Year,"-",
+                                               climate$Data$Month,"-01")),
                       DAILY = climate$Data$Date,
-                      HOURLY = as.Date(strptime(paste(climate$Data$Date," ",
-                                                      climate$Data$Hour,sep = ""),
-                                                "%Y-%m-%d %H:%M")) )
+                      HOURLY = as.Date(paste0(climate$Data$Date," ",
+                                                      climate$Data$Hour),
+                                        format = "%Y-%m-%d %H:%M") )
 
   ggplot2::ggplot()+
     ggplot2::geom_line(ggplot2::aes(data_graf, valores, group = 1), color = "red") +
