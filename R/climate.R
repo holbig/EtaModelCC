@@ -125,6 +125,9 @@ getClimateData<- function(modelID, modelFrequency, modelVar, lat, lon, iYear, fY
 #' @export
 getClimateDataBR<- function(modelID, modelFrequency, modelVar, iYear, fYear) {
 
+  modelFrequency = toupper(modelFrequency)
+  modelVar = toupper(modelVar)
+
   modelOption <- switch(modelFrequency,
                         HOURLY = '/1',
                         DAILY = '/2',
@@ -207,6 +210,8 @@ getClimateDataBR<- function(modelID, modelFrequency, modelVar, iYear, fYear) {
 #' }
 #' @export
 getClimateDataPontos<- function(modelID, modelVar, lat1, lon1, lat2, lon2, year) {
+
+  modelVar = toupper(modelVar)
 
   checkCoordinates(lat1, lon1)
   checkCoordinates(lat2, lon2)

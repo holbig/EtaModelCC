@@ -45,6 +45,9 @@ plotGrafData<- function(modelID, modelFrequency, modelVar, lat, lon, iYear, fYea
 
   valores = as.numeric(climate$Data$Value)
 
+  modelFrequency = toupper(modelFrequency)
+  modelVar = toupper(modelVar)
+
   data_graf <- switch(modelFrequency,
                       YEARLY = climate$Data$Year,
                       MONTHLY = as.Date(paste0(climate$Data$Year,"-",
@@ -85,6 +88,8 @@ plotGrafData<- function(modelID, modelFrequency, modelVar, lat, lon, iYear, fYea
 plotMapBR<- function(modelID, modelVar, year){
 
   climate <- getClimateDataBR(modelID, 'YEARLY', modelVar, year, year)
+
+  modelVar = toupper(modelVar)
 
   arquivo <- system.file("extdata", package = "EtaModelCC")
   load(paste0(arquivo,"/shape_br.Rda"))
@@ -240,6 +245,8 @@ plotMapPontos<- function(modelID, modelVar, lat1, lon1, lat2, lon2, year) {
 
   climate <- getClimateDataPontos(modelID, modelVar, lat1, lon1, lat2, lon2, year)
 
+  modelVar = toupper(modelVar)
+
   arquivo <- system.file("extdata", package = "EtaModelCC")
   load(paste0(arquivo,"/shape_br.Rda"))
 
@@ -318,7 +325,7 @@ getInfoClimate <- function(){
 #' @export
 plotMapShape<- function(modelID, modelVar, year, folderPath, fileName, subName= NULL, subNameValue = NULL){
 
-  #climate <- getClimateDataBR(modelID, 'YEARLY', modelVar, year, year)
+  modelVar = toupper(modelVar)
 
   arquivo <- folderPath
   shape <- rgdal::readOGR(arquivo, fileName, GDAL1_integer64_policy = TRUE)
